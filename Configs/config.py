@@ -24,5 +24,6 @@ config = EasyDict({
     "export_path": './results/mobilenetv2/final' ,
     "sum_path":'./results/mobilenetv2/runs',
     "TRAIN_LOG_PATH":'./results/mobilenetv2/runs/train/log',
-    "TEST_LOG_PATH":'./results/mobilenetv2/runs/test/log'   
+    "TEST_LOG_PATH":'./results/mobilenetv2/runs/test/log',
+    "BEST":'./results/mobilenetv2/final/best.pth'
 })

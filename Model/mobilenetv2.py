@@ -127,11 +127,11 @@ class MobileNetV2(nn.Module):
 
         x = self.conv(x)
 
-        # x = self.avgpool(x)
+        x = self.avgpool(x)
 
-        # x = x.view(x.size(0), -1)
+        x = x.view(x.size(0), -1)
 
-        # x = self.classifier(x)
+        x = self.classifier(x)
         return x
 
     def _initialize_weights(self):
@@ -187,31 +187,60 @@ class MobileNetV2Head(nn.Module):
         if self.activation:
             x=self.activation(x)
         return x
+class SimpleHead(nn.Module):
+
+    def __init__(self,num_classes=26):
+        super(SimpleHead,self).__init__()
+        self.classify=nn.Linear(1000,num_classes)
     
+    def forward(self,x):
+        x=self.classify(x)
+        return x
+
 class ClassifyNet(nn.Module):
     
     def __init__(self,input_channel=1280,hw=7,num_classes=26,reduction='mean',activation=None):
         super(ClassifyNet,self).__init__()
         self.backbone=MobileNetV2()
-        self.head=MobileNetV2Head()
+        # self.head=MobileNetV2Head()
+        self.head=SimpleHead()
     def forward(self,x):
 
         x=self.backbone(x)
 
         x=self.head(x)
         return x
+
+class Combine(nn.Module):
+    
+    def __init__(self,backbone,head):
+        super(Combine,self).__init__()
+        self.backbone=backbone
+        self.head=head
+    def forward(self,x):
+
+        x=self.backbone(x)
+
+        x=self.head(x)
+        return x
+
 if __name__=='__main__':
     from dataset import create_dataset
     from easydict import EasyDict
     config=EasyDict({
-        "dataset_path":"../datasets/data/garbage_26x100",
+        "dataset_path":"./datasets/data/garbage_26x100",
         "HEIGHT":224,
         "WIDTH":224,
         "batch_size":32
     })
     data_loader=create_dataset(config)
     batch_idx,(x,y)=next(enumerate(data_loader))
-    model=ClassifyNet()
-    pred_y=model(x)
-    print(pred_y)
+    model1=MobileNetV2()
+    model2=SimpleHead()
+    xy=model1(x)
+    pred_y=model2(xy)
+    # print(pred_y)
+    # print(model1.state_dict().keys())
+    print(model1.parameters())
+    
     
