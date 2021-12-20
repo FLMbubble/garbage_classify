@@ -46,7 +46,7 @@ config = EasyDict({
     "features_path": "./results/mobilenetv2/garbage_26x100_features", # 临时目录，保存冻结层Feature Map，可随时删除
     "save_ckpt_epochs": 1,
     "save_ckpt_path": './results/mobilenetv2/ckpt',
-    "pretrained_ckpt": './results/mobilenetv2/ckpt/149.pth',
+    "pretrained_ckpt": './results/mobilenetv2/ckpt/transfer49.pth',
     "export_path": './results/mobilenetv2/final' ,
     "sum_path":'./results/mobilenetv2/runs'   
 })
@@ -186,6 +186,66 @@ def extract_features(net,config):
         print(f"Complete the batch {i+1}/{step_size}")
     return
 
+def fine_tune(train_data_loader,config):
+    # net=ClassifyNet().to(config.device)
+    backbone=MobileNetV2().to(config.device)
+    head=SimpleHead().to(config.device)
+    net=Combine(backbone,head)
+    # optimizer=optim.Adam(itertools.chain(backbone.parameters(),head.parameters()),config.lr)
+    optimizer=optim.Adam(net.parameters(),config.lr)
+    scheduler=optim.lr_scheduler.ReduceLROnPlateau(optimizer,
+                                                    'max',
+                                                    factor=0.5,
+                                                    patience=3)
+    criterion=nn.CrossEntropyLoss()
+    net.load_state_dict(torch.load(config.pretrained_ckpt,map_location=config.device))
+    best_loss=1e9
+    best_model_weights=copy.deepcopy(net.state_dict())
+    # best_model_weights=copy.deepcopy(dict(backbone.state_dict().items()+head.state_dict().items()))
+    # backbone.load_state_dict(torch.load(config.backbone,map_location=config.device))
+    
+    # backbone.requires_grad_=False
+    # backbone.train()
+    # head.train()
+    net.train()
+    for epoch in range(config.epochs):
+        # net.train()
+        total=0
+        correct=0
+        losses=[]
+        for batch_idx,(x,y)in tqdm(enumerate(train_data_loader,1)):
+            x=x.to(device)
+            y=y.to(device)
+            pred_y=net(x)
+            # feature=backbone(x)
+            # pred_y=head(feature)
+
+            # backbone.zero_grad()
+            # head.zero_grad()
+            net.zero_grad()
+            loss=criterion(pred_y,y)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+
+            losses.append(loss.item())
+            _,predicted=torch.max(pred_y,1)
+            total+=y.shape[0]#计算所有标签数量
+            correct+=(predicted==y).sum()#计算预测正确数量
+
+        avg_loss=sum(losses)/len(losses) 
+        if avg_loss<best_loss:
+                best_model_weights=copy.deepcopy(net.state_dict())
+                # best_model_weights=copy.deepcopy(dict(backbone.state_dict().items()+head.state_dict().items()))
+                best_loss=avg_loss    
+        print('step:' + str(epoch + 1) + '/' + str(config.epochs) + ' || Total Loss: %.4f' % (avg_loss)+'|| Accuracy Rate: %.4f' %(correct/total))
+        if writer:
+            writer.add_scalars('training_loss', {'train': avg_loss}, epoch+1)
+            writer.add_scalars('training_accuracy', {'train': correct/total}, epoch+1)
+        if epoch%config.save_ckpt_epochs==0:
+            torch.save(best_model_weights,os.path.join(config.save_ckpt_path,'Finetune'+str(epoch)+'.pth'))
+    print('Finish Training')
+
 if __name__=='__main__':
     if not os.path.exists(config.features_path):
         os.makedirs(config.features_path)
@@ -199,5 +259,6 @@ if __name__=='__main__':
     data_loader=create_dataset(config)
     # train(data_loader,config)
     pre_train(data_loader,config)
+    # fine_tune(data_loader,config)
     print("Finish all!!!")
     pass

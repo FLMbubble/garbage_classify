@@ -21,12 +21,15 @@ from torchvision.datasets import ImageFolder
 import torch
 import torchvision
 from Model.dataset import create_dataset
-from Model.mobilenetv2 import ClassifyNet
+from Model.mobilenetv2 import ClassifyNet,Combine,MobileNetV2,SimpleHead
 from datetime import datetime
 
 def test(test_data_loader,config,logger):
     device=torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
-    net=ClassifyNet().to(device)
+    # net=ClassifyNet().to(device)
+    backbone=MobileNetV2().to(device)
+    head=SimpleHead().to(device)
+    net=Combine(backbone,head)
     bestloss=1e9
     best_acc=0
     model_all_path=select_ckpt(config)
@@ -89,7 +92,11 @@ def check_best(test_data_loader,config):
     data_loader=DataLoader(dataset,config.batch_size)
 
     device=torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
-    net=ClassifyNet().to(device)
+    # net=ClassifyNet().to(device)
+    backbone=MobileNetV2().to(device)
+    head=SimpleHead().to(device)
+    net=Combine(backbone,head)
+
     bestloss=1e9
     criterion=nn.CrossEntropyLoss()
     net.load_state_dict(torch.load(config.BEST,map_location=device))
@@ -129,7 +136,10 @@ def visualize(config):
     ori_dataset=ImageFolder(data_path,transform=ori_transforms)
     data_loader=DataLoader(dataset,24)
     ori_loader=DataLoader(ori_dataset,24)
-    net=ClassifyNet()
+    # net=ClassifyNet()
+    backbone=MobileNetV2()
+    head=SimpleHead()
+    net=Combine(backbone,head)
     net.load_state_dict(torch.load(config.BEST))
     net.eval()
     ori_loader=list(ori_loader)
@@ -159,6 +169,18 @@ def visualize(config):
 
             fig.savefig(os.path.join(save_path,'val'+str(batch_idx)+'.jpg'),bbox_inches='tight')
         print("Finish Visualize!!")
+
+def test_one(img,net):
+    transforms = T.Compose([
+        T.ToTensor(),  # 转化为张量
+        T.Normalize(mean=[0.485*255, 0.456*255, 0.406*255],std=[0.229*255, 0.224*255, 0.225*255])
+    ])
+    img=transforms.__call__(img)
+    net.eval()
+    with torch.no_grad():
+        pred_y=net(img.unsqueeze(0))
+    _,pred_y=torch.max(pred_y,1)
+    return labels[int(pred_y[0])]
 if __name__=='__main__':
     if not os.path.exists(config.export_path):
         os.makedirs(config.export_path)
@@ -174,4 +196,12 @@ if __name__=='__main__':
     # out_model_path='./results/mobilenetv2/final/mo.pth'
     # to_mo(in_model_path,out_model_path)
     visualize(config)
+    # backbone=MobileNetV2()
+    # head=SimpleHead()
+    # net=Combine(backbone,head)
+    # net.load_state_dict(torch.load(config.BEST))
+    # img=cv2.imread('./datasets/data/garbage_26x100/val/00_00/00037.jpg')
+    # img=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+    # label=test_one(img,net)
+    # print(label)
     print("Finish all!!!")
