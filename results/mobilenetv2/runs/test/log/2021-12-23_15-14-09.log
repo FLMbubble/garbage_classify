@@ -1,0 +1,100 @@
+-------------------Testing Model pre0.pth-------------------
+Testing Time 11.768856 s | Avg Testing Loss 1.659932 | Avg Accuracy Rate 0.592308
+-------------------Testing Model pre1.pth-------------------
+Testing Time 0.887625 s | Avg Testing Loss 0.987459 | Avg Accuracy Rate 0.676923
+------------------Testing Model pre10.pth-------------------
+Testing Time 0.846739 s | Avg Testing Loss 0.368884 | Avg Accuracy Rate 0.869231
+------------------Testing Model pre11.pth-------------------
+Testing Time 0.920617 s | Avg Testing Loss 0.911962 | Avg Accuracy Rate 0.915385
+------------------Testing Model pre12.pth-------------------
+Testing Time 0.807741 s | Avg Testing Loss 0.334180 | Avg Accuracy Rate 0.915385
+------------------Testing Model pre13.pth-------------------
+Testing Time 0.796357 s | Avg Testing Loss 0.922213 | Avg Accuracy Rate 0.846154
+------------------Testing Model pre14.pth-------------------
+Testing Time 0.880615 s | Avg Testing Loss 1.294272 | Avg Accuracy Rate 0.753846
+------------------Testing Model pre15.pth-------------------
+Testing Time 0.872283 s | Avg Testing Loss 0.352510 | Avg Accuracy Rate 0.907692
+------------------Testing Model pre16.pth-------------------
+Testing Time 0.859702 s | Avg Testing Loss 0.365717 | Avg Accuracy Rate 0.907692
+------------------Testing Model pre17.pth-------------------
+Testing Time 0.839262 s | Avg Testing Loss 0.352517 | Avg Accuracy Rate 0.907692
+------------------Testing Model pre18.pth-------------------
+Testing Time 0.870447 s | Avg Testing Loss 0.970384 | Avg Accuracy Rate 0.900000
+------------------Testing Model pre19.pth-------------------
+Testing Time 0.917372 s | Avg Testing Loss 0.374782 | Avg Accuracy Rate 0.900000
+-------------------Testing Model pre2.pth-------------------
+Testing Time 0.842907 s | Avg Testing Loss 0.685722 | Avg Accuracy Rate 0.776923
+------------------Testing Model pre20.pth-------------------
+Testing Time 0.803850 s | Avg Testing Loss 0.326535 | Avg Accuracy Rate 0.907692
+------------------Testing Model pre21.pth-------------------
+Testing Time 0.856841 s | Avg Testing Loss 0.306649 | Avg Accuracy Rate 0.907692
+------------------Testing Model pre22.pth-------------------
+Testing Time 0.810673 s | Avg Testing Loss 0.364274 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre23.pth-------------------
+Testing Time 0.812828 s | Avg Testing Loss 0.364271 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre24.pth-------------------
+Testing Time 0.861790 s | Avg Testing Loss 0.530176 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre25.pth-------------------
+Testing Time 0.819231 s | Avg Testing Loss 0.461921 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre26.pth-------------------
+Testing Time 0.889777 s | Avg Testing Loss 0.453208 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre27.pth-------------------
+Testing Time 0.854692 s | Avg Testing Loss 0.453594 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre28.pth-------------------
+Testing Time 0.788891 s | Avg Testing Loss 0.519341 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre29.pth-------------------
+Testing Time 0.877269 s | Avg Testing Loss 1.264980 | Avg Accuracy Rate 0.907692
+-------------------Testing Model pre3.pth-------------------
+Testing Time 0.872631 s | Avg Testing Loss 0.513445 | Avg Accuracy Rate 0.815385
+------------------Testing Model pre30.pth-------------------
+Testing Time 0.849222 s | Avg Testing Loss 0.283312 | Avg Accuracy Rate 0.938462
+------------------Testing Model pre31.pth-------------------
+Testing Time 0.868056 s | Avg Testing Loss 0.846695 | Avg Accuracy Rate 0.938462
+------------------Testing Model pre32.pth-------------------
+Testing Time 0.923314 s | Avg Testing Loss 0.733395 | Avg Accuracy Rate 0.815385
+------------------Testing Model pre33.pth-------------------
+Testing Time 0.945986 s | Avg Testing Loss 0.735431 | Avg Accuracy Rate 0.815385
+------------------Testing Model pre34.pth-------------------
+Testing Time 0.836561 s | Avg Testing Loss 0.345892 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre35.pth-------------------
+Testing Time 0.796781 s | Avg Testing Loss 0.327594 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre36.pth-------------------
+Testing Time 0.805041 s | Avg Testing Loss 0.326893 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre37.pth-------------------
+Testing Time 0.829480 s | Avg Testing Loss 0.452255 | Avg Accuracy Rate 0.876923
+------------------Testing Model pre38.pth-------------------
+Testing Time 0.785703 s | Avg Testing Loss 0.281524 | Avg Accuracy Rate 0.930769
+------------------Testing Model pre39.pth-------------------
+Testing Time 0.894944 s | Avg Testing Loss 0.333295 | Avg Accuracy Rate 0.900000
+-------------------Testing Model pre4.pth-------------------
+Testing Time 0.866052 s | Avg Testing Loss 0.469678 | Avg Accuracy Rate 0.823077
+------------------Testing Model pre40.pth-------------------
+Testing Time 0.898715 s | Avg Testing Loss 0.333486 | Avg Accuracy Rate 0.900000
+------------------Testing Model pre41.pth-------------------
+Testing Time 0.906865 s | Avg Testing Loss 0.470859 | Avg Accuracy Rate 0.900000
+------------------Testing Model pre42.pth-------------------
+Testing Time 0.826844 s | Avg Testing Loss 0.333305 | Avg Accuracy Rate 0.900000
+------------------Testing Model pre43.pth-------------------
+Testing Time 0.882638 s | Avg Testing Loss 0.677792 | Avg Accuracy Rate 0.815385
+------------------Testing Model pre44.pth-------------------
+Testing Time 0.927292 s | Avg Testing Loss 0.662177 | Avg Accuracy Rate 0.815385
+------------------Testing Model pre45.pth-------------------
+Testing Time 0.899304 s | Avg Testing Loss 0.738195 | Avg Accuracy Rate 0.815385
+------------------Testing Model pre46.pth-------------------
+Testing Time 0.875410 s | Avg Testing Loss 0.653966 | Avg Accuracy Rate 0.815385
+------------------Testing Model pre47.pth-------------------
+Testing Time 0.913244 s | Avg Testing Loss 0.145989 | Avg Accuracy Rate 0.953846
+------------------Testing Model pre48.pth-------------------
+Testing Time 0.841800 s | Avg Testing Loss 0.145797 | Avg Accuracy Rate 0.953846
+------------------Testing Model pre49.pth-------------------
+Testing Time 0.829141 s | Avg Testing Loss 0.146028 | Avg Accuracy Rate 0.953846
+-------------------Testing Model pre5.pth-------------------
+Testing Time 0.845954 s | Avg Testing Loss 0.623983 | Avg Accuracy Rate 0.800000
+-------------------Testing Model pre6.pth-------------------
+Testing Time 0.904033 s | Avg Testing Loss 0.332808 | Avg Accuracy Rate 0.900000
+-------------------Testing Model pre7.pth-------------------
+Testing Time 0.832280 s | Avg Testing Loss 0.435138 | Avg Accuracy Rate 0.876923
+-------------------Testing Model pre8.pth-------------------
+Testing Time 0.858702 s | Avg Testing Loss 0.423840 | Avg Accuracy Rate 0.838462
+-------------------Testing Model pre9.pth-------------------
+Testing Time 0.867943 s | Avg Testing Loss 0.819152 | Avg Accuracy Rate 0.876923

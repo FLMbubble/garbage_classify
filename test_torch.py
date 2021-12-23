@@ -20,11 +20,18 @@ from torch.utils.data import DataLoader, dataloader, dataset
 from torchvision.datasets import ImageFolder
 import torch
 import torchvision
-from Model.dataset import create_dataset
+from Model.dataset import create_dataset,select_ckpt,select_raw_ckpt
 from Model.mobilenetv2 import ClassifyNet,Combine,MobileNetV2,SimpleHead
 from datetime import datetime
 
 def test(test_data_loader,config,logger):
+    """
+    测试训练模型在验证集上表现，并根据验证集中的识别准确率选出最优模型
+    args:
+    test_data_loader:验证数据集迭代器
+    config:推理配置
+    logger:日志生成器
+    """
     device=torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
     # net=ClassifyNet().to(device)
     backbone=MobileNetV2().to(device)
@@ -32,7 +39,7 @@ def test(test_data_loader,config,logger):
     net=Combine(backbone,head)
     bestloss=1e9
     best_acc=0
-    model_all_path=select_ckpt(config)
+    model_all_path=select_raw_ckpt(config)
     criterion=nn.CrossEntropyLoss()
     best_model_weights=None
     print(model_all_path)
@@ -63,26 +70,46 @@ def test(test_data_loader,config,logger):
         if best_acc<acc:
             best_acc=acc
             best_model_weights=copy.deepcopy(net.state_dict())
-        print(model+ '|| Total Loss: %.4f' % (loss)+'|| Accuracy Rate: %.4f' %(correct/total))
-        logger.info("Testing Time {:.6f} s | Avg Testing Loss {:.6f} | Avg Accuracy Rate {:.6f}".format(time.time()-start_time, loss,correct/total))
+        print(model+ '|| Total Loss: %.4f' % (avg_loss)+'|| Accuracy Rate: %.4f' %(correct/total))
+        logger.info("Testing Time {:.6f} s | Avg Testing Loss {:.6f} | Avg Accuracy Rate {:.6f}".format(time.time()-start_time, avg_loss,correct/total))
     torch.save(best_model_weights,os.path.join(config.export_path,'best.pth'))
     print('Finish Testing')
 
 def to_mo(in_model_path,out_model_path):
+    """
+    转化为mo平台上可使用模型
+    args:
+    in_model_path:待转化模型路径
+    out_model_path:转化后模型存放路径
+    """
     net=ClassifyNet()
     net.load_state_dict(torch.load(in_model_path))
     weights=copy.deepcopy(net.state_dict())
     torch.save(weights,out_model_path,_use_new_zipfile_serialization=False)
 
-def select_ckpt(config):
-    model_all_path=[]
-    for files in os.listdir(config.save_ckpt_path):
-        if 'transfer' in files.split('.')[0]:
-            if files.split('.')[-1] == 'pth':
-                model_all_path.append(files)
-    return model_all_path
+# def select_ckpt(config):
+#     model_all_path=[]
+#     for files in os.listdir(config.save_ckpt_path):
+#         if 'transfer' in files.split('.')[0]:
+#             if files.split('.')[-1] == 'pth':
+#                 model_all_path.append(files)
+#     return model_all_path
+
+# def select_raw_ckpt(config):
+#     model_all_path=[]
+#     for files in os.listdir(config.save_ckpt_path):
+#         if 'transfer' not in files.split('.')[0]:
+#             if files.split('.')[-1] == 'pth':
+#                 model_all_path.append(files)
+#     return model_all_path
 
 def check_best(test_data_loader,config):
+    """
+    检查最优模型的性能
+    args:
+    test_data_loader:验证数据集迭代器
+    config:推理配置
+    """
     data_path = os.path.join(config.dataset_path,'val')
     transforms = T.Compose([
         T.ToTensor(),  # 转化为张量
@@ -119,10 +146,16 @@ def check_best(test_data_loader,config):
             total+=y.shape[0]#计算所有标签数量
             correct+=(predicted==y).sum()#计算预测正确数量
     avg_loss=sum(losses)/len(losses) 
-    print('|| Total Loss: %.4f' % (loss)+'|| Accuracy Rate: %.4f' %(correct/total))
+    print('|| Total Loss: %.4f' % (avg_loss)+'|| Accuracy Rate: %.4f' %(correct/total))
     print('Finish Checking')
 
 def visualize(config):
+
+    """
+    以最优模型在验证集上所有数据做推理，并可视化推理结果
+    args:
+    config:推理配置
+    """
     data_path = os.path.join(config.dataset_path,'val')
     transforms = T.Compose([
         T.ToTensor(),  # 转化为张量
@@ -171,6 +204,12 @@ def visualize(config):
         print("Finish Visualize!!")
 
 def test_one(img,net):
+    """
+    利用模型对单张图片作推理
+    args:
+    img:RGB图片，大小为224*224像素
+    net:推理所使用的模型
+    """
     transforms = T.Compose([
         T.ToTensor(),  # 转化为张量
         T.Normalize(mean=[0.485*255, 0.456*255, 0.406*255],std=[0.229*255, 0.224*255, 0.225*255])
@@ -192,10 +231,10 @@ if __name__=='__main__':
     # test(test_data_loader,config,logger)
     # check_best(test_data_loader,config)
     # select_ckpt(config)
-    # in_model_path='./results/mobilenetv2/final/best.pth'
-    # out_model_path='./results/mobilenetv2/final/mo.pth'
-    # to_mo(in_model_path,out_model_path)
-    visualize(config)
+    in_model_path='./results/mobilenetv2/final/best.pth'
+    out_model_path='./results/mobilenetv2/final/mo.pth'
+    to_mo(in_model_path,out_model_path)
+    # visualize(config)
     # backbone=MobileNetV2()
     # head=SimpleHead()
     # net=Combine(backbone,head)

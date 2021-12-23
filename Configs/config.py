@@ -9,21 +9,22 @@ config = EasyDict({
     "reduction": 'mean', # mean, max, Head部分池化采用的方式
     "HEIGHT": 224,
     "WIDTH": 224,
-    "batch_size": 32, # 鉴于CPU容器性能，太大可能会导致训练卡住
+    "batch_size": 32, 
     "eval_batch_size": 10,
-    "epochs": 50, # 请尝试修改以提升精度
-    "lr": 0.01, # 请尝试修改以提升精度
-    "decay_type": 'constant', # 请尝试修改以提升精度
-    "momentum": 0.9, # 请尝试修改以提升精度
-    "weight_decay": 2.0, # 请尝试修改以提升精度
+    "epochs": 50, # 迭代轮数
+    "lr": 0.0001, # 最大学习了吧
+    "decay_type": 'constant', # 未使用
+    "momentum": 0.9, # 未使用
+    "weight_decay": 2.0, # 未使用
     "dataset_path": "./datasets/data/garbage_26x100",
     "features_path": "./results/mobilenetv2/garbage_26x100_features", # 临时目录，保存冻结层Feature Map，可随时删除
     "save_ckpt_epochs": 1,
     "save_ckpt_path": './results/mobilenetv2/ckpt',
-    "pretrained_ckpt": './results/mobilenetv2/pretrained',
     "export_path": './results/mobilenetv2/final' ,
     "sum_path":'./results/mobilenetv2/runs',
     "TRAIN_LOG_PATH":'./results/mobilenetv2/runs/train/log',
     "TEST_LOG_PATH":'./results/mobilenetv2/runs/test/log',
-    "BEST":'./results/mobilenetv2/final/best.pth'
+    "BEST":'./results/mobilenetv2/final/best.pth',
+    "backbone":"./results/mobilenetv2/final/mobilenetv2.pth",
+    "pretrained_ckpt": './results/mobilenetv2/ckpt/49.pth' 
 })

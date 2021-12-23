@@ -1,0 +1,100 @@
+----------------Testing Model transfer0.pth-----------------
+Testing Time 4.510865 s | Avg Testing Loss 1.676154 | Avg Accuracy Rate 0.576923
+----------------Testing Model transfer1.pth-----------------
+Testing Time 1.093278 s | Avg Testing Loss 0.646022 | Avg Accuracy Rate 0.761538
+----------------Testing Model transfer10.pth----------------
+Testing Time 0.990976 s | Avg Testing Loss 0.370808 | Avg Accuracy Rate 0.884615
+----------------Testing Model transfer11.pth----------------
+Testing Time 0.999020 s | Avg Testing Loss 0.466150 | Avg Accuracy Rate 0.846154
+----------------Testing Model transfer12.pth----------------
+Testing Time 0.938244 s | Avg Testing Loss 0.275932 | Avg Accuracy Rate 0.930769
+----------------Testing Model transfer13.pth----------------
+Testing Time 0.859010 s | Avg Testing Loss 0.287432 | Avg Accuracy Rate 0.930769
+----------------Testing Model transfer14.pth----------------
+Testing Time 0.802854 s | Avg Testing Loss 0.368095 | Avg Accuracy Rate 0.907692
+----------------Testing Model transfer15.pth----------------
+Testing Time 0.815488 s | Avg Testing Loss 0.362112 | Avg Accuracy Rate 0.907692
+----------------Testing Model transfer16.pth----------------
+Testing Time 0.911291 s | Avg Testing Loss 0.459491 | Avg Accuracy Rate 0.861538
+----------------Testing Model transfer17.pth----------------
+Testing Time 0.873026 s | Avg Testing Loss 0.873082 | Avg Accuracy Rate 0.861538
+----------------Testing Model transfer18.pth----------------
+Testing Time 0.900862 s | Avg Testing Loss 0.347206 | Avg Accuracy Rate 0.892308
+----------------Testing Model transfer19.pth----------------
+Testing Time 0.863092 s | Avg Testing Loss 0.399526 | Avg Accuracy Rate 0.892308
+----------------Testing Model transfer2.pth-----------------
+Testing Time 0.848966 s | Avg Testing Loss 1.009721 | Avg Accuracy Rate 0.769231
+----------------Testing Model transfer20.pth----------------
+Testing Time 0.798961 s | Avg Testing Loss 0.664681 | Avg Accuracy Rate 0.846154
+----------------Testing Model transfer21.pth----------------
+Testing Time 0.778915 s | Avg Testing Loss 0.615195 | Avg Accuracy Rate 0.846154
+----------------Testing Model transfer22.pth----------------
+Testing Time 0.895643 s | Avg Testing Loss 0.693279 | Avg Accuracy Rate 0.846154
+----------------Testing Model transfer23.pth----------------
+Testing Time 0.851886 s | Avg Testing Loss 0.588793 | Avg Accuracy Rate 0.923077
+----------------Testing Model transfer24.pth----------------
+Testing Time 0.861282 s | Avg Testing Loss 0.290661 | Avg Accuracy Rate 0.923077
+----------------Testing Model transfer25.pth----------------
+Testing Time 0.907723 s | Avg Testing Loss 0.646235 | Avg Accuracy Rate 0.807692
+----------------Testing Model transfer26.pth----------------
+Testing Time 0.869698 s | Avg Testing Loss 0.280086 | Avg Accuracy Rate 0.930769
+----------------Testing Model transfer27.pth----------------
+Testing Time 0.847371 s | Avg Testing Loss 0.838142 | Avg Accuracy Rate 0.930769
+----------------Testing Model transfer28.pth----------------
+Testing Time 0.833718 s | Avg Testing Loss 0.359598 | Avg Accuracy Rate 0.930769
+----------------Testing Model transfer29.pth----------------
+Testing Time 0.907727 s | Avg Testing Loss 0.195625 | Avg Accuracy Rate 0.961538
+----------------Testing Model transfer3.pth-----------------
+Testing Time 0.856894 s | Avg Testing Loss 0.399547 | Avg Accuracy Rate 0.853846
+----------------Testing Model transfer30.pth----------------
+Testing Time 0.847367 s | Avg Testing Loss 2.265647 | Avg Accuracy Rate 0.638462
+----------------Testing Model transfer31.pth----------------
+Testing Time 0.806492 s | Avg Testing Loss 2.038396 | Avg Accuracy Rate 0.638462
+----------------Testing Model transfer32.pth----------------
+Testing Time 0.803569 s | Avg Testing Loss 1.607632 | Avg Accuracy Rate 0.638462
+----------------Testing Model transfer33.pth----------------
+Testing Time 0.787893 s | Avg Testing Loss 0.147352 | Avg Accuracy Rate 0.946154
+----------------Testing Model transfer34.pth----------------
+Testing Time 0.893695 s | Avg Testing Loss 0.147400 | Avg Accuracy Rate 0.946154
+----------------Testing Model transfer35.pth----------------
+Testing Time 0.886621 s | Avg Testing Loss 0.147351 | Avg Accuracy Rate 0.946154
+----------------Testing Model transfer36.pth----------------
+Testing Time 0.815181 s | Avg Testing Loss 0.336158 | Avg Accuracy Rate 0.946154
+----------------Testing Model transfer37.pth----------------
+Testing Time 0.833498 s | Avg Testing Loss 0.185633 | Avg Accuracy Rate 0.946154
+----------------Testing Model transfer38.pth----------------
+Testing Time 0.851549 s | Avg Testing Loss 1.080060 | Avg Accuracy Rate 0.946154
+----------------Testing Model transfer39.pth----------------
+Testing Time 0.815975 s | Avg Testing Loss 0.278397 | Avg Accuracy Rate 0.946154
+----------------Testing Model transfer4.pth-----------------
+Testing Time 0.793687 s | Avg Testing Loss 0.421745 | Avg Accuracy Rate 0.861538
+----------------Testing Model transfer40.pth----------------
+Testing Time 0.850670 s | Avg Testing Loss 0.185646 | Avg Accuracy Rate 0.946154
+----------------Testing Model transfer41.pth----------------
+Testing Time 0.842166 s | Avg Testing Loss 0.354904 | Avg Accuracy Rate 0.915385
+----------------Testing Model transfer42.pth----------------
+Testing Time 0.857448 s | Avg Testing Loss 0.563329 | Avg Accuracy Rate 0.915385
+----------------Testing Model transfer43.pth----------------
+Testing Time 0.809014 s | Avg Testing Loss 0.361919 | Avg Accuracy Rate 0.915385
+----------------Testing Model transfer44.pth----------------
+Testing Time 0.789560 s | Avg Testing Loss 0.504704 | Avg Accuracy Rate 0.915385
+----------------Testing Model transfer45.pth----------------
+Testing Time 0.843743 s | Avg Testing Loss 0.587290 | Avg Accuracy Rate 0.907692
+----------------Testing Model transfer46.pth----------------
+Testing Time 0.865609 s | Avg Testing Loss 0.336133 | Avg Accuracy Rate 0.907692
+----------------Testing Model transfer47.pth----------------
+Testing Time 0.903173 s | Avg Testing Loss 0.449391 | Avg Accuracy Rate 0.907692
+----------------Testing Model transfer48.pth----------------
+Testing Time 0.933350 s | Avg Testing Loss 0.344836 | Avg Accuracy Rate 0.907692
+----------------Testing Model transfer49.pth----------------
+Testing Time 0.875292 s | Avg Testing Loss 0.336112 | Avg Accuracy Rate 0.907692
+----------------Testing Model transfer5.pth-----------------
+Testing Time 0.898721 s | Avg Testing Loss 0.597935 | Avg Accuracy Rate 0.838462
+----------------Testing Model transfer6.pth-----------------
+Testing Time 0.885647 s | Avg Testing Loss 1.410955 | Avg Accuracy Rate 0.830769
+----------------Testing Model transfer7.pth-----------------
+Testing Time 0.868573 s | Avg Testing Loss 0.579123 | Avg Accuracy Rate 0.861538
+----------------Testing Model transfer8.pth-----------------
+Testing Time 0.820793 s | Avg Testing Loss 0.863247 | Avg Accuracy Rate 0.776923
+----------------Testing Model transfer9.pth-----------------
+Testing Time 0.846382 s | Avg Testing Loss 0.465342 | Avg Accuracy Rate 0.838462

@@ -1,8 +1,7 @@
 ###############################################################################
-# 重要: 请务必把任务(jobs)中需要保存的文件存放在 results 文件夹内
-# Important : Please make sure your files are saved to the 'results' folder
-# in your jobs
-# 本代码来源于 Notebook cell 里面的模型，大家进行离线任务时尽量只训练模型，不要进行模型评估等操作
+"""
+本文件实现mindspore框架下冻结backbone，微调FC层的神经网络的训练
+"""
 ###############################################################################
 import math
 import numpy as np
@@ -49,11 +48,11 @@ config = EasyDict({
     "image_width": 224,
     "batch_size": 24, # 鉴于CPU容器性能，太大可能会导致训练卡住
     "eval_batch_size": 10,
-    "epochs": 25, # 请尝试修改以提升精度
-    "lr_max": 0.001, # 请尝试修改以提升精度
-    "decay_type": 'consine', # 请尝试修改以提升精度
-    "momentum": 0.95, # 请尝试修改以提升精度
-    "weight_decay": 1.05, # 请尝试修改以提升精度
+    "epochs": 25, # 训练迭代轮数
+    "lr_max": 0.0005, # 最大学习率
+    "decay_type": 'cosine', # 学习率衰减方式
+    "momentum": 0.9, # 动量法β因子
+    "weight_decay": 1.05, # 动量法alpha因子
     "dataset_path": "./datasets/data/garbage_26x100",
     "features_path": "./results/garbage_26x100_features", # 临时目录，保存冻结层Feature Map，可随时删除
     "class_index": index,
@@ -66,7 +65,7 @@ config = EasyDict({
 
 def build_lr(total_steps, lr_init=0.0, lr_end=0.0, lr_max=0.1, warmup_steps=0, decay_type='cosine'):
     """
-    Applies cosine decay to generate learning rate array.
+    generate learning rate array.
 
     Args:
        total_steps(int): all steps in training.
@@ -100,6 +99,16 @@ def build_lr(total_steps, lr_init=0.0, lr_end=0.0, lr_max=0.1, warmup_steps=0, d
 
 
 def extract_features(net, dataset_path, config):
+    """
+    use backbone to get the features of image.
+
+    Args:
+       net: backbone.
+       dataset_path: path of training data.
+       config: hyper parameters
+
+    """
+
     if not os.path.exists(config.features_path):
         os.makedirs(config.features_path)
     dataset = create_dataset(config=config)
@@ -124,9 +133,7 @@ def extract_features(net, dataset_path, config):
 backbone = MobileNetV2Backbone()
 load_checkpoint(config.pretrained_ckpt, net=backbone)
 extract_features(backbone, config.dataset_path, config)
-# backbone = MobileNetV2Backbone()
-# load_checkpoint(config.pretrained_ckpt, net=backbone)
-# extract_features(backbone, config.dataset_path, config)
+
 class GlobalPooling(nn.Cell):
     """
     Global avg pooling definition.
@@ -193,12 +200,15 @@ class MobileNetV2Head(nn.Cell):
         return x
 
 def train_head():
+    """
+    train the head of the network
+    """
     train_dataset = create_dataset(config=config)
     eval_dataset = create_dataset(config=config)
     step_size = train_dataset.get_dataset_size()
     
     backbone = MobileNetV2Backbone()
-    # Freeze parameters of backbone. You can comment these two lines.
+    # Freeze parameters of backbone.
     for param in backbone.get_parameters():
        param.requires_grad = False
     load_checkpoint(config.pretrained_ckpt, net=backbone)
@@ -241,10 +251,12 @@ def train_head():
     
     return history
 
+# 删除之前的checkpoint文件
 if os.path.exists(config.save_ckpt_path):
     shutil.rmtree(config.save_ckpt_path)
 os.makedirs(config.save_ckpt_path)
 
+# 开始训练
 history = train_head()
 
 CKPT = f'mobilenetv2-{config.epochs}.ckpt'

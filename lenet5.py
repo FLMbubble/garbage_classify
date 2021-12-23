@@ -23,6 +23,21 @@ SUM_PATH='results/lenet/runs'
 writer = SummaryWriter(os.path.join(SUM_PATH, "{:%Y-%m-%d_%H-%M-%S}".format(datetime.now())))
 def create_dataset(data_dir, training=True, batch_size=32, resize=(32, 32),
                    rescale=1/(255*0.3081), shift=-0.1307/0.3081, buffer_size=64):
+    """
+    获取MNIST数据集，并返回数据迭代器
+    args:
+    data_dir:数据集存放路径
+    training:训练/验证集选择标志
+    batch_size:单次训练batch大小
+    resize:调整后图片大小
+    rescale:像素归一化因子
+    shift:偏移(未使用)
+    buffer_size:(未使用)
+
+    returns:
+    train_data_loader:训练数据迭代器
+    test_data_loader:验证数据迭代器
+    """
 
     transforms=T.Compose([
         T.Resize(resize),
@@ -39,6 +54,9 @@ def create_dataset(data_dir, training=True, batch_size=32, resize=(32, 32),
     return train_data_loader,test_data_loader
 
 class LeNet5(nn.Module):
+    """
+    Lenet5网络定义
+    """
     def __init__(self):
         super(LeNet5, self).__init__()
         self.conv1 = nn.Conv2d(1, 6, 5, stride=1, padding=0)
@@ -65,6 +83,16 @@ class LeNet5(nn.Module):
 
 
 def train(data_dir, ckpt_dir,epochs=10,lr=0.01, num_epochs=3,writer=None):
+    """
+    训练lenet5
+    args:
+    data_dir:数据集路径
+    ckpt_dir:check point文件路径
+    epochs:训练轮数
+    lr:初始学习率
+    num_epochs:check point文件保存间隔轮数(未使用)
+    writer:tensorboard日志生成器
+    """
     train_data_loader,_=create_dataset(data_dir)
     net = LeNet5().to(device)
     optimizer=optim.Adam(net.parameters(),lr)
@@ -76,9 +104,9 @@ def train(data_dir, ckpt_dir,epochs=10,lr=0.01, num_epochs=3,writer=None):
     best_loss=1e9
     best_model_weights=copy.deepcopy(net.state_dict())
 
-    loss_list=[]
     for epoch in range(epochs):
         net.train()
+        losses=[]
         for batch_idx,(x,y)in tqdm(enumerate(train_data_loader,1)):
             x=x.to(device)
             y=y.to(device)
@@ -89,19 +117,25 @@ def train(data_dir, ckpt_dir,epochs=10,lr=0.01, num_epochs=3,writer=None):
             loss.backward()
             optimizer.step()
 
-            if loss<best_loss:
-                best_model_weights=copy.deepcopy(net.state_dict())
-                best_loss=loss
-            
-            loss_list.append(loss)
+            losses.append(loss.item())
         
+
+        avg_loss=sum(losses)/len(losses)
+        if avg_loss<best_loss:
+            best_model_weights=copy.deepcopy(net.state_dict())
+            best_loss=avg_loss
         print('step:' + str(epoch + 1) + '/' + str(epochs) + ' || Total Loss: %.4f' % (loss))
         if writer:
-            writer.add_scalars('training_loss', {'train': loss}, epoch+1)
+            writer.add_scalars('training_loss', {'train': avg_loss}, epoch+1)
         torch.save(best_model_weights,os.path.join(ckpt_dir,str(epoch)+'.pth'))
     print('Finish Training')
 
 def test(data_dir,model_dir):
+    """
+    测试lenet5,保存验证集上表现最好的模型
+    args:
+    model_dir:模型存放路径
+    """
     _,test_data_loader=create_dataset(data_dir)
     net=LeNet5().to(device)
     bestloss=1e9
@@ -116,24 +150,38 @@ def test(data_dir,model_dir):
         net.eval()
         correct=0
         total=0
-        for batch_idx,(x,y) in tqdm(enumerate(test_data_loader,1)):
-            x=x.to(device)
-            y=y.to(device)
-            pred_y=net(x)
+        with torch.no_grad():
+            losses=[]
+            for batch_idx,(x,y) in tqdm(enumerate(test_data_loader,1)):
+                x=x.to(device)
+                y=y.to(device)
+                pred_y=net(x)
 
-            loss=criterion(pred_y,y)
-
-            if loss<bestloss:
-                bestloss=loss
+                loss=criterion(pred_y,y)
+                losses.append(loss.item())
+                _,predicted=torch.max(pred_y,1)
+                total+=y.shape[0]#计算所有标签数量
+                correct+=(predicted==y).sum()#计算预测正确数量
+            avg_loss=sum(losses)/len(losses)
+            if avg_loss<bestloss:
+                bestloss=avg_loss
                 best_model_weights=copy.deepcopy(net.state_dict())
-            _,predicted=torch.max(pred_y,1)
-            total+=y.shape[0]#计算所有标签数量
-            correct+=(predicted==y).sum()#计算预测正确数量
-        print(model+ '|| Total Loss: %.4f' % (loss)+'|| Accuracy Rate: %.4f' %(correct/total))
+                
+        print(model+ '|| Total Loss: %.4f' % (avg_loss)+'|| Accuracy Rate: %.4f' %(correct/total))
     torch.save(best_model_weights,os.path.join(model_dir,'best.pth'))
     print('Finish Testing')
 
 def show(data_dir,model_path,demo_path,show_num=20,show_rows=2,show_cols=10):
+    """
+    随机抽取训练集和测试集中数据可视化lenet5识别结果
+    args:
+    data_dir:数据集路径
+    model_path:测试模型路径
+    demo_path:可视化结果存放路径
+    show_num:可视化识别结果数量
+    show_rows:展示行数
+    show_cols:展示列数
+    """
     train_data_loader,test_data_loader=create_dataset(data_dir)
     _,(train_img_datas,train_img_idxes)=next(enumerate(train_data_loader))
     _,(test_img_datas,test_img_idxes)=next(enumerate(test_data_loader))
@@ -205,7 +253,10 @@ if __name__=='__main__':
         os.makedirs(DEMO_PATH)
     if not os.path.exists(SUM_PATH):
         os.makedirs(SUM_PATH)
-    train(DATA_PATH,CKPT_DIR,writer=writer)
+    train_loader,_=create_dataset(DATA_PATH)
+    # bidx,(x,y)=next(enumerate(train_loader))
+    # print(x.shape)
+    # train(DATA_PATH,CKPT_DIR,writer=writer)
     test(DATA_PATH,CKPT_DIR)
     show(DATA_PATH,os.path.join(CKPT_DIR,'best.pth'),DEMO_PATH)
     print('Finish all !!!')

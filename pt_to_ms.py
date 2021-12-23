@@ -43,6 +43,12 @@ config = EasyDict({
 
 
 def ckpt2ms(in_path,out_path):
+    """
+    ckpt文件转ms文件
+    args:
+    in_path:ckpt文件路径
+    out_path:ms文件路径
+    """
     backbone=MobileNetV2Backbone()
     head=MobileNetV2Head()
     net=mobilenet_v2(backbone,head)
@@ -60,7 +66,12 @@ def ckpt2ms(in_path,out_path):
     pass
 
 def pt2ckpt(in_path,out_path):
-
+    """
+    pth文件转ckpt文件
+    args:
+    in_path:pth文件路径
+    out_path:ckpt文件路径
+    """
 
     print("hello")
     par_dict = torch.load(in_path,map_location='cpu')

@@ -188,6 +188,9 @@ class MobileNetV2Head(nn.Module):
             x=self.activation(x)
         return x
 class SimpleHead(nn.Module):
+    """
+    简单线性分类器
+    """
 
     def __init__(self,num_classes=26):
         super(SimpleHead,self).__init__()
@@ -198,7 +201,9 @@ class SimpleHead(nn.Module):
         return x
 
 class ClassifyNet(nn.Module):
-    
+    """
+    垃圾分类模型
+    """
     def __init__(self,input_channel=1280,hw=7,num_classes=26,reduction='mean',activation=None):
         super(ClassifyNet,self).__init__()
         self.backbone=MobileNetV2()
@@ -212,7 +217,9 @@ class ClassifyNet(nn.Module):
         return x
 
 class Combine(nn.Module):
-    
+    """
+    合并backbone与head
+    """
     def __init__(self,backbone,head):
         super(Combine,self).__init__()
         self.backbone=backbone
